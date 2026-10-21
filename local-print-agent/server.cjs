@@ -87,7 +87,7 @@ function buildReceipt(payload) {
     push(Buffer.from([0x1b, 0x40]));
     push(Buffer.from([0x1b, 0x61, 0x01]));
     push(Buffer.from([0x1b, 0x45, 0x01]));
-    push(`${plain(settings.receipt_store_name || 'DALWA WATER TEGAL')}\n`);
+    push(`${plain(settings.receipt_store_name || 'MAWA MART')}\n`);
     push(Buffer.from([0x1b, 0x45, 0x00]));
 
     [settings.receipt_address_line_1, settings.receipt_address_line_2].forEach((line) => {
@@ -170,8 +170,8 @@ function writeSerial(buffer) {
     }
 
     const comName = printer.replace(/^\\\\\.\\/, '').replace(/:$/, '').toUpperCase();
-    const dataFile = path.join(os.tmpdir(), `dalwa-print-${Date.now()}-${Math.random().toString(16).slice(2)}.bin`);
-    const scriptFile = path.join(os.tmpdir(), `dalwa-print-${Date.now()}-${Math.random().toString(16).slice(2)}.ps1`);
+    const dataFile = path.join(os.tmpdir(), `mawa-print-${Date.now()}-${Math.random().toString(16).slice(2)}.bin`);
+    const scriptFile = path.join(os.tmpdir(), `mawa-print-${Date.now()}-${Math.random().toString(16).slice(2)}.ps1`);
 
     fs.writeFileSync(dataFile, buffer);
     fs.writeFileSync(scriptFile, [
@@ -247,7 +247,7 @@ const server = http.createServer((request, response) => {
 });
 
 server.listen(port, '127.0.0.1', () => {
-    console.log(`Dalwa Water local print agent aktif di http://127.0.0.1:${port}/print`);
+    console.log(`Mawa Mart local print agent aktif di http://127.0.0.1:${port}/print`);
     console.log(`Connector: ${connector}`);
     console.log(`Target printer: ${printer}`);
 });

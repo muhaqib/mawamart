@@ -1,4 +1,4 @@
-# Local Print Agent Dalwa Water
+# Local Print Agent Mawa Mart
 
 Agent ini dijalankan di komputer kasir agar aplikasi yang sudah deploy di VPS tetap bisa mencetak langsung ke printer thermal lokal tanpa membuka halaman baru.
 

@@ -16,7 +16,7 @@ class AppSetting extends Model
     public static function receiptDefaults(): array
     {
         return [
-            'receipt_store_name' => 'DALWA WATER TEGAL',
+            'receipt_store_name' => 'MAWA MART',
             'receipt_address_line_1' => 'Tegal - Jawa Tengah',
             'receipt_address_line_2' => '',
             'receipt_phone' => '0852-3699-1848',

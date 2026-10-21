@@ -1,6 +1,6 @@
-# Dalwa Water
+# Mawa Mart
 
-Aplikasi transaksi, stok, pembelian, pengeluaran, laporan, approval, dan cetak nota Dalwa Water.
+Aplikasi transaksi, stok, pembelian, pengeluaran, laporan, approval, dan cetak nota Mawa Mart.
 
 ## Kebutuhan Server
 
@@ -51,7 +51,7 @@ Untuk instalasi kosong, akun awal hanya dibuat jika variabel `SEED_ADMIN_*` atau
 Simpan backup terenkripsi di lokasi berbeda dari server aplikasi. Contoh MySQL:
 
 ```bash
-mysqldump --single-transaction --routines --triggers -u USER -p DATABASE > dalwa-water.sql
+mysqldump --single-transaction --routines --triggers -u USER -p DATABASE > mawa-mart.sql
 ```
 
 Cadangkan juga `storage/app`, `.env` melalui secret manager, dan catat commit/rilis aktif. Uji pemulihan backup secara berkala pada lingkungan terpisah.

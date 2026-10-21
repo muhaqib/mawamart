@@ -29,8 +29,8 @@ class LoginUserSeeder extends Seeder
         User::firstOrCreate(
             ['username' => $username],
             [
-                'name' => env("SEED_{$prefix}_NAME", ucfirst($role).' Dalwa'),
-                'email' => env("SEED_{$prefix}_EMAIL", $username.'@dalwa-water.local'),
+                'name' => env("SEED_{$prefix}_NAME", ucfirst($role).' Mawa Mart'),
+                'email' => env("SEED_{$prefix}_EMAIL", $username.'@mawamart.local'),
                 'password' => Hash::make($password),
                 'role' => $role,
                 'status' => 'active',

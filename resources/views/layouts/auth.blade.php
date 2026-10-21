@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Masuk - Dalwa Water')</title>
+    <title>@yield('title', 'Masuk - Mawa Mart')</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
         (() => {
-            const stored = window.localStorage.getItem('dalwa-theme');
+            const stored = window.localStorage.getItem('mawa-theme') || window.localStorage.getItem('dalwa-theme');
             const dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
             document.documentElement.classList.toggle('dark', dark);
         })();
@@ -21,7 +21,7 @@
 <body>
     @yield('content')
     <div style="position: absolute; bottom: 24px; left: 0; right: 0; text-align: center; font-size: 13px; color: var(--muted);">
-        @ 2026 Dalwa Water Tegal
+        &copy; 2026 Mawa Mart
     </div>
 </body>
 </html>

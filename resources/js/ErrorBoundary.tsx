@@ -16,7 +16,7 @@ export default class ErrorBoundary extends Component<Props, State> {
     }
 
     public componentDidCatch(error: Error, info: ErrorInfo): void {
-        console.error('Dalwa Water frontend error', error, info.componentStack);
+        console.error('Mawa Mart frontend error', error, info.componentStack);
     }
 
     public render(): ReactNode {

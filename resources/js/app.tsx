@@ -656,7 +656,7 @@ function ThemeIcon({ theme }: { theme: Theme }) {
 }
 
 function getInitialTheme(): Theme {
-    const stored = window.localStorage.getItem('dalwa-theme');
+    const stored = window.localStorage.getItem('mawa-theme') || window.localStorage.getItem('dalwa-theme');
 
     if (stored === 'light' || stored === 'dark') {
         return stored;
@@ -744,7 +744,7 @@ function App({ props }: { props: AppProps }) {
 
     useEffect(() => {
         document.documentElement.classList.toggle('dark', theme === 'dark');
-        window.localStorage.setItem('dalwa-theme', theme);
+        window.localStorage.setItem('mawa-theme', theme);
     }, [theme]);
 
     useEffect(() => {
@@ -835,11 +835,11 @@ function App({ props }: { props: AppProps }) {
             >
                 <div className="flex min-h-[76px] items-center gap-3 overflow-hidden border-b border-border px-6">
                     <span className="grid size-14 shrink-0 place-items-center overflow-hidden">
-                        <img className="h-14 w-14 object-contain" src="/images/logo-dalwa-water.png" alt="Logo Dalwa Water" />
+                        <img className="h-14 w-14 rounded-md object-contain" src="/images/logo-mawa-mart.png" alt="Logo Mawa Mart" />
                     </span>
                     <span className="grid min-w-0 gap-0.5">
-                        <strong className="truncate text-lg font-semibold leading-6 text-foreground">Dalwa Water</strong>
-                        <small className="truncate text-xs font-medium leading-4 text-muted-foreground">Tegal - Jawa Tengah</small>
+                        <strong className="truncate text-lg font-semibold leading-6 text-foreground">Mawa Mart</strong>
+                        <small className="truncate text-xs font-medium leading-4 text-muted-foreground">Retail & Mart System</small>
                     </span>
                     <button
                         className="ms-auto grid size-10 place-items-center rounded-full text-darklink hover:bg-lightprimary hover:text-primary xl:hidden"
@@ -1019,7 +1019,7 @@ function App({ props }: { props: AppProps }) {
                             {resolvedPage === 'account' && <Account props={props} />}
                         </main>
                         <footer className="mt-auto pt-8 text-left text-xs font-medium text-darklink">
-                            @ 2026 Dalwa Water Tegal
+                            &copy; 2026 Mawa Mart
                         </footer>
                     </div>
                 </div>
@@ -1323,7 +1323,7 @@ function Transactions({ props }: { props: AppProps }) {
             <header className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                 <div>
                     <h1 className="text-2xl font-semibold leading-8">Transaksi</h1>
-                    <p className="text-sm leading-5 text-muted-foreground">Kelola transaksi penjualan dan pembayaran pelanggan Dalwa Water Tegal.</p>
+                    <p className="text-sm leading-5 text-muted-foreground">Kelola transaksi penjualan dan pembayaran pelanggan Mawa Mart.</p>
                 </div>
             </header>
 
@@ -3585,7 +3585,7 @@ function ReceiptSettingsPreview({ cashier, settings }: { cashier: string; settin
             </div>
             <div className="my-3 border-t border-dashed border-ld" />
             <div className="grid gap-1">
-                <span>DWater Cup 220ml</span>
+                <span>Mawa Snack / Minuman</span>
                 <div className="flex justify-between gap-3"><span>1 x 20.000</span><strong>20.000</strong></div>
             </div>
             <div className="my-3 border-t border-dashed border-ld" />

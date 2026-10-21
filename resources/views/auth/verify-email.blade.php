@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Verifikasi Email - Dalwa Water')
+@section('title', 'Verifikasi Email - Mawa Mart')
 
 @section('content')
     <main class="auth">

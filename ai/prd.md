@@ -1,9 +1,9 @@
-# PRD - Dalwa Water Management System
+# PRD - Mawa Mart Management System
 
 ## 1. Informasi Produk
 
-**Nama produk:** Dalwa Water Management System
-**Jenis produk:** Aplikasi POS dan manajemen stok untuk operasional penjualan Dalwa Water.
+**Nama produk:** Mawa Mart Management System
+**Jenis produk:** Aplikasi POS dan manajemen ritel/stok untuk operasional Mawa Mart.
 **Pengguna utama:** Admin dan Kasir.
 **Status dokumen:** PRD operasional sebelum eksekusi lanjutan aplikasi.
 **Status implementasi saat ini:** Aplikasi Laravel dengan UI React/Vite untuk area login setelah autentikasi, serta Blade sebagai bootstrap view dan fallback.

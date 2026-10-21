@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dalwa Water Tegal</title>
+    <title>Mawa Mart</title>
     <script>
         (() => {
-            const stored = window.localStorage.getItem('dalwa-theme');
+            const stored = window.localStorage.getItem('mawa-theme') || window.localStorage.getItem('dalwa-theme');
             const dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
             document.documentElement.classList.toggle('dark', dark);
         })();
@@ -39,7 +39,7 @@
         <section class="login">
             <div class="logo">
                 <span class="drop">@include('partials.icon', ['name' => 'dashboard'])</span>
-                <div><h1>Dalwa Water</h1><p>Sistem Manajemen</p></div>
+                <div><h1>Mawa Mart</h1><p>Sistem Manajemen</p></div>
             </div>
             @if (isset($errors) && $errors->any()) <div class="notice err">{{ $errors->first() }}</div> @endif
             @if (session('success')) <div class="notice ok">{{ session('success') }}</div> @endif
@@ -51,7 +51,7 @@
             </form>
         </section>
         <div style="position: absolute; bottom: 24px; left: 0; right: 0; text-align: center; font-size: 13px; color: var(--muted);">
-            @ 2026 Dalwa Water Tegal
+            &copy; 2026 Mawa Mart
         </div>
     </main>
 @else

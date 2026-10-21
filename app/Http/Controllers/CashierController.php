@@ -16,7 +16,7 @@ class CashierController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $this->validated($request);
-        $data['email'] = $data['username'].'@dalwa-water.local';
+        $data['email'] = $data['username'].'@mawamart.local';
         $data['password'] = Hash::make($data['password']);
 
         $cashier = User::create($data);
@@ -29,7 +29,7 @@ class CashierController extends Controller
     public function update(Request $request, User $cashier): RedirectResponse
     {
         $data = $this->validated($request, $cashier);
-        $data['email'] = $data['username'].'@dalwa-water.local';
+        $data['email'] = $data['username'].'@mawamart.local';
 
         if (! empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);

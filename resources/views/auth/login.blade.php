@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>Masuk - Dalwa Water</title>
+    <title>Masuk - Mawa Mart</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
         (() => {
-            const stored = window.localStorage.getItem('dalwa-theme');
+            const stored = window.localStorage.getItem('mawa-theme') || window.localStorage.getItem('dalwa-theme');
             const dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
             document.documentElement.classList.toggle('dark', dark);
         })();
@@ -325,7 +325,7 @@
 </head>
 <body>
     <main class="auth-page">
-        <section class="auth-card" aria-label="Form login Dalwa Water">
+        <section class="auth-card" aria-label="Form login Mawa Mart">
             <button class="theme-toggle" id="themeToggle" type="button" aria-label="Ganti mode tampilan">
                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewBox="0 0 24 24" aria-hidden="true">
                     <circle cx="12" cy="12" r="4"></circle>
@@ -341,9 +341,9 @@
             </button>
 
             <div class="brand">
-                <a class="brand-mark" href="{{ route('login.form') }}" aria-label="Dalwa Water">
-                    <img class="brand-logo" src="{{ asset('images/logo-dalwa-water.png') }}" alt="Logo Dalwa Water">
-                    <span class="brand-text">Dalwa Water Tegal</span>
+                <a class="brand-mark" href="{{ route('login.form') }}" aria-label="Mawa Mart">
+                    <img class="brand-logo" src="{{ asset('images/logo-mawa-mart.png') }}" alt="Logo Mawa Mart">
+                    <span class="brand-text">Mawa Mart</span>
                 </a>
             </div>
 
@@ -387,7 +387,7 @@
                 <button id="submitButton" class="submit-button" type="submit">Masuk</button>
             </form>
 
-            <div class="auth-footer">@ 2026 Dalwa Water Tegal</div>
+            <div class="auth-footer">&copy; 2026 Mawa Mart</div>
         </section>
     </main>
 
@@ -418,7 +418,7 @@
         themeToggle.addEventListener('click', () => {
             const nextDark = !document.documentElement.classList.contains('dark');
             document.documentElement.classList.toggle('dark', nextDark);
-            window.localStorage.setItem('dalwa-theme', nextDark ? 'dark' : 'light');
+            window.localStorage.setItem('mawa-theme', nextDark ? 'dark' : 'light');
             syncThemeLabel();
         });
 
