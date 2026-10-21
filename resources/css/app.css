@@ -1,0 +1,369 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+@source '../**/*.tsx';
+
+@custom-variant dark (&:is(.dark *));
+
+html,
+main {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+}
+
+@theme {
+    --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+    --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --shadow-btn-shadow: rgba(0, 0, 0, 0.05) 0 9px 17.5px;
+    --shadow-boxShadow: 7px 7px 10px rgba(0, 0, 0, 0.03);
+    --shadow-xs: 0 1px 4px 0 rgba(133, 146, 173, 0.2);
+
+    --radius-sm: 4px;
+    --radius-md: 7px;
+    --radius-lg: 7px;
+    --radius-tw: 12px;
+
+    --leading-21: 21px;
+    --gap-30: 30px;
+    --padding-15: 15px;
+    --padding-30: 30px;
+    --margin-30: 30px;
+}
+
+@theme inline {
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+
+    --color-info: var(--matdash-info);
+    --color-success: var(--matdash-success);
+    --color-warning: var(--matdash-warning);
+    --color-error: var(--matdash-error);
+    --color-dark: var(--matdash-dark);
+    --color-link: var(--matdash-link);
+    --color-darklink: var(--matdash-darklink);
+    --color-bodytext: var(--matdash-bodytext);
+    --color-graymuted: var(--matdash-graymuted);
+    --color-darkgray: var(--matdash-darkgray);
+    --color-bordergray: var(--matdash-bordergray);
+    --color-lightgray: var(--matdash-lightgray);
+    --color-darkmuted: var(--matdash-darkmuted);
+    --color-darkborder: var(--matdash-darkborder);
+    --color-defaultBorder: var(--matdash-defaultBorder);
+    --color-slateGray: var(--matdash-slateGray);
+    --color-charcoal: var(--matdash-charcoal);
+    --color-breadcrumbColor: var(--matdash-breadcrumbColor);
+
+    --color-lightprimary: var(--lightprimary);
+    --color-lightsecondary: var(--lightsecondary);
+    --color-lightsuccess: var(--lightsuccess);
+    --color-lighterror: var(--lighterror);
+    --color-lightinfo: var(--lightinfo);
+    --color-lightwarning: var(--lightwarning);
+    --color-primaryemphasis: var(--primary-emphasis);
+    --color-secondaryemphasis: var(--secondary-emphasis);
+    --color-warningemphasis: var(--warning-emphasis);
+    --color-erroremphasis: var(--error-emphasis);
+    --color-successemphasis: var(--success-emphasis);
+    --color-infoemphasis: var(--info-emphasis);
+}
+
+:root {
+    --radius: 10px;
+
+    --matdash-info: #8754ec;
+    --matdash-success: #13deb9;
+    --matdash-warning: #f6b51e;
+    --matdash-error: #ef4444;
+    --matdash-white: #ffffff;
+    --matdash-dark: #1c2536;
+    --matdash-border: #dfe5ef;
+    --matdash-darkborder: #333f55;
+    --matdash-link: #2a3547;
+    --matdash-muted: #f5f5f5;
+    --matdash-darkmuted: #2a3851;
+    --matdash-darklink: #7c8fac;
+    --matdash-lightgray: #f6f9fc;
+    --matdash-darkgray: #1c2536;
+    --matdash-bodytext: #5a6a85bf;
+    --matdash-primary: #5d87ff;
+    --matdash-secondary: #49beff;
+    --matdash-input: #e5e7eb;
+    --matdash-graymuted: #5a6a85bf;
+    --matdash-bordergray: #dfe5ef;
+    --matdash-charcoal: #2a3547;
+    --matdash-customdark: #1c2536;
+    --matdash-defaultBorder: #dfe5ef;
+    --matdash-slateGray: #5a6a85bf;
+    --matdash-breadcrumbColor: #5d87ff20;
+
+    --lightprimary: color-mix(in oklab, var(--matdash-primary) 12%, transparent);
+    --lightsecondary: color-mix(in oklab, var(--matdash-secondary) 12%, transparent);
+    --lightsuccess: color-mix(in oklab, var(--matdash-success) 12%, transparent);
+    --lightwarning: color-mix(in oklab, var(--matdash-warning) 12%, transparent);
+    --lighterror: color-mix(in oklab, var(--matdash-error) 12%, transparent);
+    --lightinfo: color-mix(in oklab, var(--matdash-info) 12%, transparent);
+
+    --primary-emphasis: color-mix(in oklab, var(--matdash-primary) 80%, black);
+    --secondary-emphasis: color-mix(in oklab, var(--matdash-secondary) 80%, black);
+    --success-emphasis: color-mix(in oklab, var(--matdash-success) 80%, black);
+    --warning-emphasis: color-mix(in oklab, var(--matdash-warning) 80%, black);
+    --error-emphasis: color-mix(in oklab, var(--matdash-error) 80%, black);
+    --info-emphasis: color-mix(in oklab, var(--matdash-info) 80%, black);
+
+    --background: var(--matdash-white);
+    --foreground: var(--matdash-link);
+    --card: var(--matdash-white);
+    --card-foreground: var(--matdash-link);
+    --popover: var(--matdash-white);
+    --popover-foreground: var(--matdash-link);
+    --primary: var(--matdash-primary);
+    --primary-foreground: var(--matdash-white);
+    --secondary: var(--matdash-secondary);
+    --secondary-foreground: var(--matdash-white);
+    --muted: #f5f5f5;
+    --muted-foreground: #737373;
+    --accent: var(--lightprimary);
+    --accent-foreground: var(--matdash-primary);
+    --destructive: var(--matdash-error);
+    --destructive-foreground: var(--matdash-white);
+    --border: var(--matdash-border);
+    --input: var(--matdash-input);
+    --ring: var(--lightprimary);
+    --chart-1: var(--matdash-primary);
+    --chart-2: var(--matdash-secondary);
+    --chart-3: var(--matdash-success);
+    --chart-4: var(--matdash-warning);
+    --chart-5: var(--matdash-error);
+    --sidebar: var(--matdash-white);
+    --sidebar-foreground: var(--matdash-link);
+    --sidebar-primary: var(--matdash-primary);
+    --sidebar-primary-foreground: var(--matdash-white);
+    --sidebar-accent: var(--lightprimary);
+    --sidebar-accent-foreground: var(--matdash-primary);
+    --sidebar-border: var(--matdash-border);
+    --sidebar-ring: #a1a1a1;
+}
+
+.dark {
+    --background: var(--matdash-dark);
+    --foreground: var(--matdash-white);
+    --card: var(--matdash-dark);
+    --card-foreground: var(--matdash-white);
+    --popover: var(--matdash-darkgray);
+    --popover-foreground: var(--matdash-white);
+    --muted: var(--matdash-darkmuted);
+    --muted-foreground: var(--matdash-darklink);
+    --accent: var(--lightprimary);
+    --accent-foreground: var(--matdash-primary);
+    --border: var(--matdash-darkborder);
+    --input: var(--matdash-darkborder);
+    --ring: var(--lightprimary);
+    --sidebar: var(--matdash-dark);
+    --sidebar-foreground: var(--matdash-darklink);
+    --sidebar-border: var(--matdash-darkborder);
+    --matdash-charcoal: #7b8893;
+    --matdash-customdark: #ffffff;
+    --matdash-defaultBorder: #333f55;
+    --matdash-slateGray: #7b8893;
+    --matdash-breadcrumbColor: #223662;
+    --lightprimary: color-mix(in oklab, var(--matdash-primary) 20%, transparent);
+    --lightsecondary: color-mix(in oklab, var(--matdash-secondary) 18%, transparent);
+    --lightsuccess: color-mix(in oklab, var(--matdash-success) 18%, transparent);
+    --lightwarning: color-mix(in oklab, var(--matdash-warning) 18%, transparent);
+    --lighterror: color-mix(in oklab, var(--matdash-error) 18%, transparent);
+    --lightinfo: color-mix(in oklab, var(--matdash-info) 18%, transparent);
+}
+
+@utility form-control {
+    & input {
+        @apply w-full rounded-md border border-defaultBorder bg-transparent text-sm ring-transparent dark:bg-transparent dark:ring-transparent;
+    }
+
+    & input:focus {
+        @apply border-primary outline-hidden ring-0 ring-transparent dark:border-primary;
+    }
+}
+
+@utility form-control-textarea {
+    @apply w-full rounded-md border border-defaultBorder bg-transparent p-4 text-sm dark:bg-transparent;
+
+    &:focus {
+        @apply border-primary outline-hidden ring-0 ring-transparent dark:border-primary;
+    }
+}
+
+@utility card-title {
+    @apply text-lg font-semibold text-dark dark:text-white;
+}
+
+@utility border-ld {
+    @apply border-defaultBorder;
+}
+
+@utility bg-hover {
+    @apply hover:bg-lightprimary dark:hover:bg-lightprimary;
+}
+
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        box-sizing: border-box;
+        border-color: var(--color-gray-200, currentcolor);
+        letter-spacing: 0;
+    }
+
+    html,
+    body {
+        max-width: 100%;
+    }
+
+    body {
+        @apply overflow-x-hidden bg-background text-sm leading-21 text-foreground antialiased;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply font-semibold text-dark dark:text-white;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        @apply text-darklink;
+    }
+
+    button {
+        @apply cursor-pointer;
+    }
+
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3csvg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 10 6'%3e %3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 1 4 4 4-4'/%3e %3c/svg%3e");
+        background-position: right 0.75rem center;
+        background-repeat: no-repeat;
+        background-size: 0.75em 0.75em;
+        cursor: pointer;
+    }
+
+    select option {
+        background-color: var(--card);
+        color: var(--foreground);
+    }
+
+    .dark select option {
+        background-color: var(--card);
+        color: var(--foreground);
+    }
+
+    select:focus {
+        outline: none;
+    }
+}
+
+input[type='time']::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+input[type='time'] {
+    -moz-appearance: textfield;
+}
+
+input[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+}
+
+* {
+    scrollbar-color: color-mix(in oklab, var(--muted-foreground) 36%, transparent) transparent;
+    scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.app-sidebar-scroll {
+    scrollbar-color: color-mix(in oklab, var(--sidebar-foreground) 32%, transparent) transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    min-height: 40px;
+    min-width: 40px;
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    background-clip: padding-box;
+    background-color: color-mix(in oklab, var(--muted-foreground) 34%, transparent);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: color-mix(in oklab, var(--muted-foreground) 52%, transparent);
+}
+
+.app-sidebar-scroll::-webkit-scrollbar-thumb {
+    background-color: color-mix(in oklab, var(--sidebar-foreground) 32%, transparent);
+}
+
+.app-sidebar-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: color-mix(in oklab, var(--sidebar-foreground) 48%, transparent);
+}

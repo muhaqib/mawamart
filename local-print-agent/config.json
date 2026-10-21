@@ -1,0 +1,7 @@
+{
+    "port": 9123,
+    "connector": "serial",
+    "printer": "COM6",
+    "baud": 9600,
+    "width": 32
+}
