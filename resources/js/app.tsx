@@ -18,6 +18,7 @@ type Product = {
     kode_barang: string;
     nama_barang: string;
     kategori: string;
+    subcategory_id: number | null;
     harga_modal: number;
     harga_jual: number;
     stok: number;
@@ -108,9 +109,12 @@ type Expense = {
 type Category = {
     id: number;
     nama_kategori: string;
+    department_id: number | null;
     update_url: string | null;
     destroy_url: string | null;
 };
+
+type CatalogGroup = { id: number; name: string; category_id?: number; update_url: string | null; destroy_url: string | null };
 
 type Supplier = {
     id: number;
@@ -251,6 +255,8 @@ type AppProps = {
     purchaseHistory: StockIn[];
     expenses: Expense[];
     categories: Category[];
+    departments: CatalogGroup[];
+    subcategories: CatalogGroup[];
     suppliers: Supplier[];
     cashiers: Cashier[];
     currentShift: CashierShift | null;
@@ -520,8 +526,10 @@ const navFor = (isAdmin: boolean): NavGroup[] => [
     {
         heading: 'Data Master',
         items: [
+            { id: 'departments', label: 'Departemen', icon: 'category' },
             { id: 'categories', label: 'Kategori', icon: 'category' },
-            { id: 'inventory', label: 'Produk', icon: 'product' },
+            { id: 'subcategories', label: 'Subkategori', icon: 'category' },
+            { id: 'inventory', label: 'Master Barang', icon: 'product' },
             { id: 'suppliers', label: 'Suplier', icon: 'supplier' },
             ...(isAdmin ? [{ id: 'audit-login', label: 'Audit Login', icon: 'history' }] : []),
         ],
@@ -762,7 +770,7 @@ function App({ props }: { props: AppProps }) {
 
     const activate = (nextPage: string) => {
         const serverPages = new Set([
-            'dashboard', 'transactions', 'inventory', 'categories', 'suppliers', 'purchases',
+            'dashboard', 'transactions', 'inventory', 'departments', 'subcategories', 'categories', 'suppliers', 'purchases',
             'stock', 'stock-opname', 'history', 'transaction-history', 'operations',
             'audit-login', 'settings', 'account',
         ]);
@@ -993,6 +1001,8 @@ function App({ props }: { props: AppProps }) {
                             {page === 'product-edit' && editingProduct && <ProductForm product={editingProduct} props={props} onBack={() => activate('inventory')} />}
                             {page === 'product-edit' && !editingProduct && <Inventory props={props} onCreate={() => activate('product-create')} onEdit={(product) => { setEditingProduct(product); activate('product-edit'); }} />}
                             {page !== 'product-create' && page !== 'product-edit' && resolvedPage === 'inventory' && <Inventory props={props} onCreate={() => activate('product-create')} onEdit={(product) => { setEditingProduct(product); activate('product-edit'); }} />}
+                            {page === 'departments' && <CatalogGroups key="departments" props={props} kind="departments" />}
+                            {page === 'subcategories' && <CatalogGroups key="subcategories" props={props} kind="subcategories" />}
                             {page === 'category-create' && <CategoryForm props={props} onBack={() => activate('categories')} />}
                             {page === 'category-edit' && editingCategory && <CategoryForm category={editingCategory} props={props} onBack={() => activate('categories')} />}
                             {page === 'category-edit' && !editingCategory && <Categories props={props} onCreate={() => activate('category-create')} onEdit={(category) => { setEditingCategory(category); activate('category-edit'); }} />}
@@ -1489,6 +1499,7 @@ function Transactions({ props }: { props: AppProps }) {
 function Inventory({ onCreate, onEdit, props }: { onCreate: () => void; onEdit: (product: Product) => void; props: AppProps }) {
     const [category, setCategory] = useState('Semua kategori');
     const [query, setQuery] = useState('');
+    const [departmentFilter, setDepartmentFilter] = useState('');
     const productCategories = [
         'Semua kategori',
         ...Array.from(new Set([
@@ -1498,15 +1509,19 @@ function Inventory({ onCreate, onEdit, props }: { onCreate: () => void; onEdit: 
     ];
     const filteredProducts = props.products.filter((product) => {
         const matchesCategory = category === 'Semua kategori' || product.kategori === category;
-        const matchesKeyword = matchesSearchText(`${product.kode_barang} ${product.nama_barang} ${product.kategori}`, query);
+        const categoryRecord = props.categories.find((item) => item.nama_kategori === product.kategori);
+        const department = props.departments.find((item) => item.id === categoryRecord?.department_id);
+        const subcategory = props.subcategories.find((item) => item.id === product.subcategory_id);
+        const matchesDepartment = !departmentFilter || String(categoryRecord?.department_id ?? '') === departmentFilter;
+        const matchesKeyword = matchesSearchText(`${product.kode_barang} ${product.nama_barang} ${product.kategori} ${department?.name ?? ''} ${subcategory?.name ?? ''}`, query);
 
-        return matchesCategory && matchesKeyword;
+        return matchesCategory && matchesDepartment && matchesKeyword;
     });
 
     return (
         <section className="grid gap-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                <div><h1 className="text-2xl font-semibold leading-8 text-foreground">Produk</h1><p className="text-sm text-muted-foreground">Kelola katalog produk, kategori, barcode, dan batas stok minimal.</p></div>
+                <div><h1 className="text-2xl font-semibold leading-8 text-foreground">Master Barang</h1><p className="text-sm text-muted-foreground">Kelola katalog produk, kategori, barcode, dan batas stok minimal.</p></div>
             {(
                     <div className="flex flex-wrap gap-2">
                         <Button className="self-start" variant="primary" onClick={onCreate}>Tambah</Button>
@@ -1515,7 +1530,8 @@ function Inventory({ onCreate, onEdit, props }: { onCreate: () => void; onEdit: 
             </div>
 
             <Card>
-                <div className="mb-5 grid gap-3 lg:grid-cols-[minmax(220px,320px)_minmax(0,1fr)_auto]">
+                <div className="mb-5 grid gap-3 lg:grid-cols-4">
+                    <select className="h-10 rounded-md border border-ld bg-card px-4 text-sm text-foreground" aria-label="Filter departemen" value={departmentFilter} onChange={(event) => { setDepartmentFilter(event.target.value); setCategory('Semua kategori'); }}><option value="">Semua departemen</option>{props.departments.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select>
                     <select className="h-10 w-full rounded-md border border-ld bg-card px-4 text-sm text-foreground outline-none focus:border-primary" value={category} onChange={(event) => setCategory(event.target.value)} aria-label="Filter kategori">
                         {productCategories.map((item) => <option key={item} value={item}>{item}</option>)}
                     </select>
@@ -1524,7 +1540,7 @@ function Inventory({ onCreate, onEdit, props }: { onCreate: () => void; onEdit: 
                         Filter
                     </Button>
                 </div>
-            <ProductTable products={filteredProducts} showActions csrf={props.csrf} onEdit={onEdit} />
+            <ProductTable props={props} products={filteredProducts} showActions csrf={props.csrf} onEdit={onEdit} />
                 <ServerPagination meta={props.pagination.products} />
             </Card>
         </section>
@@ -1994,6 +2010,10 @@ function CanvasFormRow({ children, label, required = false }: { children: React.
 }
 
 function ProductForm({ onBack, product, props }: { onBack: () => void; product?: Product; props: AppProps }) {
+    const initialCategory = props.categories.find((item) => item.nama_kategori === product?.kategori);
+    const [departmentId, setDepartmentId] = useState(String(initialCategory?.department_id ?? ''));
+    const [categoryName, setCategoryName] = useState(product?.kategori ?? '');
+    const [subcategoryId, setSubcategoryId] = useState(String(product?.subcategory_id ?? ''));
     const [productBarcode, setProductBarcode] = useState(() => product?.kode_barang ?? `DW-${Date.now().toString().slice(-8)}`);
     const generateBarcode = () => {
         setProductBarcode(`DW-${Date.now().toString().slice(-8)}`);
@@ -2004,7 +2024,7 @@ function ProductForm({ onBack, product, props }: { onBack: () => void; product?:
         <section className="grid gap-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                 <div>
-                    <h1 className="text-2xl font-semibold leading-8 text-foreground">{isEdit ? 'Edit Produk' : 'Tambah Produk'}</h1>
+                    <h1 className="text-2xl font-semibold leading-8 text-foreground">{isEdit ? 'Edit Barang' : 'Tambah Barang'}</h1>
                     <p className="text-sm text-muted-foreground">{isEdit ? 'Perbarui data katalog, barcode, dan batas stok minimal produk.' : 'Lengkapi data katalog, barcode, dan batas stok minimal produk.'}</p>
                 </div>
                 <Button className="self-start" variant="soft" onClick={onBack}>Kembali</Button>
@@ -2014,19 +2034,32 @@ function ProductForm({ onBack, product, props }: { onBack: () => void; product?:
                 <FormStack as="form" method="POST" action={isEdit ? product?.update_url ?? '' : props.routes.productsStore ?? ''} encType="multipart/form-data" className="gap-4 px-6 py-6">
                     <input type="hidden" name="_token" value={props.csrf} />
                     {isEdit && <input type="hidden" name="_method" value="PUT" />}
-                    <input type="hidden" name="harga_modal" value={product?.harga_modal ?? 0} />
-                    <input type="hidden" name="harga_jual" value={product?.harga_jual ?? 0} />
-                    <input type="hidden" name="stok" value={product?.stok ?? 0} />
+                    <CanvasFormRow label="Harga Modal" required><input type="number" name="harga_modal" min={0} defaultValue={product?.harga_modal ?? 0} required /></CanvasFormRow>
+                    <CanvasFormRow label="Harga Jual" required><input type="number" name="harga_jual" min={0} defaultValue={product?.harga_jual ?? 0} required /></CanvasFormRow>
+                    <CanvasFormRow label="Stok" required><input type="number" name="stok" min={0} defaultValue={product?.stok ?? 0} required /></CanvasFormRow>
                     {!isEdit && <input type="hidden" name="status" value="active" />}
                     <CanvasFormRow label="Nama" required>
                         <input name="nama_barang" defaultValue={product?.nama_barang ?? ''} required placeholder="Masukan nama produk" />
                     </CanvasFormRow>
-                    <CanvasFormRow label="Kategori" required>
-                        <select name="kategori" defaultValue={product?.kategori ?? ''} required>
-                            <option value="">Pilih kategori</option>
-                            {props.categories.map((category) => <option key={category.id} value={category.nama_kategori}>{category.nama_kategori}</option>)}
+                    <CanvasFormRow label="Departemen">
+                        <select value={departmentId} onChange={(event) => { setDepartmentId(event.target.value); setCategoryName(''); setSubcategoryId(''); }}>
+                            <option value="">Tanpa departemen (data lama)</option>
+                            {props.departments.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
                         </select>
                     </CanvasFormRow>
+                    <CanvasFormRow label="Kategori" required>
+                        <select name="kategori" value={categoryName} onChange={(event) => { setCategoryName(event.target.value); setSubcategoryId(''); }} required>
+                            <option value="">Pilih kategori</option>
+                            {props.categories.filter((item) => String(item.department_id ?? '') === departmentId).map((category) => <option key={category.id} value={category.nama_kategori}>{category.nama_kategori}</option>)}
+                        </select>
+                    </CanvasFormRow>
+                    <CanvasFormRow label="Subkategori">
+                        <select name="subcategory_id" value={subcategoryId} onChange={(event) => setSubcategoryId(event.target.value)}>
+                            <option value="">Tanpa subkategori</option>
+                            {props.subcategories.filter((item) => item.category_id === props.categories.find((category) => category.nama_kategori === categoryName)?.id).map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+                        </select>
+                    </CanvasFormRow>
+                    <CanvasFormRow label="Foto Barang"><input name="foto_produk" type="file" accept="image/*" /></CanvasFormRow>
                     <CanvasFormRow label="Satuan" required>
                         <input name="satuan" defaultValue={product?.satuan ?? 'Unit'} required placeholder="Masukan satuan produk" />
                     </CanvasFormRow>
@@ -2063,6 +2096,35 @@ function ProductForm({ onBack, product, props }: { onBack: () => void; product?:
     );
 }
 
+function CatalogGroups({ props, kind }: { props: AppProps; kind: 'departments' | 'subcategories' }) {
+    const [editing, setEditing] = useState<CatalogGroup | null>(null);
+    const [showForm, setShowForm] = useState(false);
+    const [query, setQuery] = useState('');
+    const title = kind === 'departments' ? 'Departemen' : 'Subkategori';
+    const rows = props[kind].filter((item) => matchesSearchText(`${item.name} ${props.categories.find((category) => category.id === item.category_id)?.nama_kategori ?? ''}`, query));
+    return <section className="grid gap-6">
+        <div className="flex items-center justify-between gap-4"><div><h1 className="text-2xl font-semibold">{title}</h1><p className="text-sm text-muted-foreground">{kind === 'departments' ? 'Kelola kelompok utama barang, seperti Food dan Non Food.' : 'Kelola rincian kelompok barang di dalam kategori.'}</p></div><Button variant="primary" onClick={() => { setEditing(null); setShowForm(true); }}>Tambah {title}</Button></div>
+        {showForm && <Card><h2 className="font-semibold">{editing ? 'Edit' : 'Tambah'} {title}</h2>
+            <FormStack key={editing?.id ?? 'new'} as="form" method="POST" action={editing?.update_url ?? props.routes[kind === 'departments' ? 'departmentsStore' : 'subcategoriesStore'] ?? ''}>
+                <input type="hidden" name="_token" value={props.csrf} />
+                {editing && <input type="hidden" name="_method" value="PUT" />}
+                {kind === 'subcategories' && <CanvasFormRow label="Kategori" required><select name="category_id" defaultValue={editing?.category_id ?? ''} required><option value="">Pilih kategori</option>{props.categories.map((item) => <option key={item.id} value={item.id}>{props.departments.find((dept) => dept.id === item.department_id)?.name ?? 'Tanpa departemen'} / {item.nama_kategori}</option>)}</select></CanvasFormRow>}
+                <CanvasFormRow label="Nama" required><input name="name" maxLength={100} defaultValue={editing?.name ?? ''} required /></CanvasFormRow>
+                <div className="flex gap-2"><Button type="submit" variant="primary">Simpan</Button><Button variant="soft" onClick={() => setShowForm(false)}>Batal</Button></div>
+            </FormStack>
+        </Card>}
+        <Card><input className="rounded-md border border-ld p-3" placeholder={`Cari ${title.toLowerCase()}...`} aria-label={`Cari ${title}`} value={query} onChange={(event) => setQuery(event.target.value)} />
+            <DataTable><table><thead><tr><th>Nama</th><th>{kind === 'departments' ? 'Jumlah Kategori' : 'Kategori'}</th><th>Aksi</th></tr></thead><tbody>
+                {rows.map((item) => <tr key={item.id}><td>{item.name}</td><td>{kind === 'departments' ? props.categories.filter((category) => category.department_id === item.id).length : props.categories.find((category) => category.id === item.category_id)?.nama_kategori}</td><td><div className="flex gap-2">
+                    {item.update_url && <Button variant="soft" onClick={() => { setEditing(item); setShowForm(true); }}>Edit</Button>}
+                    {item.destroy_url && <Button variant="soft" onClick={() => { if (window.confirm(`Hapus ${item.name}?`)) postForm(item.destroy_url!, props.csrf, { _method: 'DELETE' }); }}>Hapus</Button>}
+                </div></td></tr>)}
+                {!rows.length && <tr><td colSpan={3}>Belum ada data yang sesuai.</td></tr>}
+            </tbody></table></DataTable>
+        </Card>
+    </section>;
+}
+
 function CategoryForm({ category, onBack, props }: { category?: Category; onBack: () => void; props: AppProps }) {
     const isEdit = Boolean(category);
 
@@ -2080,6 +2142,12 @@ function CategoryForm({ category, onBack, props }: { category?: Category; onBack
                 <FormStack as="form" method="POST" action={isEdit ? category?.update_url ?? '' : props.routes.categoriesStore ?? ''} className="gap-4 px-6 py-6">
                     <input type="hidden" name="_token" value={props.csrf} />
                     {isEdit && <input type="hidden" name="_method" value="PUT" />}
+                    <CanvasFormRow label="Departemen">
+                        <select name="department_id" defaultValue={category?.department_id ?? ''}>
+                            <option value="">Tanpa departemen</option>
+                            {props.departments.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}
+                        </select>
+                    </CanvasFormRow>
                     <CanvasFormRow label="Nama" required>
                         <input name="nama_kategori" defaultValue={category?.nama_kategori ?? ''} required placeholder="Contoh: Minuman" />
                     </CanvasFormRow>
@@ -2139,7 +2207,7 @@ function Categories({ props, onCreate, onEdit }: { props: AppProps; onCreate: ()
                             {sortedRows.length ? sortedRows.map((category, index) => (
                                 <tr key={category.id}>
                                     <td className="!text-center font-medium text-muted-foreground">{index + 1}</td>
-                                    <td><strong className="text-foreground">{category.nama_kategori}</strong></td>
+                                    <td><strong className="text-foreground">{category.nama_kategori}</strong><div className="text-xs text-muted-foreground">{props.departments.find((item) => item.id === category.department_id)?.name ?? 'Tanpa departemen'}</div></td>
                                     <td className="!text-center font-semibold text-foreground">{category.productCount}</td>
                                     <td className="!text-center">
                                         <div className="flex items-center justify-center gap-1">
@@ -3152,6 +3220,12 @@ function auditActionLabel(action: string) {
         'user.created': 'Pengguna dibuat',
         'user.updated': 'Pengguna diperbarui',
         'user.password_reset': 'Kata sandi pengguna direset',
+        'department.created': 'Departemen dibuat',
+        'department.updated': 'Departemen diperbarui',
+        'department.deleted': 'Departemen dihapus',
+        'subcategory.created': 'Subkategori dibuat',
+        'subcategory.updated': 'Subkategori diperbarui',
+        'subcategory.deleted': 'Subkategori dihapus',
         'category.created': 'Kategori dibuat',
         'category.updated': 'Kategori diperbarui',
         'category.deleted': 'Kategori dihapus',
@@ -3708,7 +3782,7 @@ function StockTable({ products }: { products: Product[] }) {
     );
 }
 
-function ProductTable({ products, showActions = false, csrf, onEdit }: { products: Product[]; showActions?: boolean; csrf?: string; onEdit?: (product: Product) => void }) {
+function ProductTable({ props, products, showActions = false, csrf, onEdit }: { props: AppProps; products: Product[]; showActions?: boolean; csrf?: string; onEdit?: (product: Product) => void }) {
     const { sortDirection, sortKey, toggleSort } = useTableSort<ProductSortKey>('name');
     const sortedProducts = [...products].sort((first, second) => {
         const value = sortKey === 'minimum'
@@ -3751,7 +3825,7 @@ function ProductTable({ products, showActions = false, csrf, onEdit }: { product
                                     <strong className="text-foreground">{product.nama_barang}</strong>
                                     {product.deskripsi && <div className="mt-1 text-xs text-muted-foreground">{product.deskripsi}</div>}
                                 </td>
-                                <td className="!text-center text-foreground">{product.kategori || '-'}</td>
+                                <td className="!text-center text-foreground">{[props.departments.find((item) => item.id === props.categories.find((category) => category.nama_kategori === product.kategori)?.department_id)?.name, product.kategori, props.subcategories.find((item) => item.id === product.subcategory_id)?.name].filter(Boolean).join(' / ') || '-'}</td>
                                 <td className="!text-center text-foreground">{product.satuan || '-'}</td>
                                 <td className="!text-center font-semibold text-foreground">{product.stok_minimal}</td>
                                 <td><Badge className="rounded-full px-3 py-1" variant={product.status === 'active' ? 'green' : 'red'}>{product.status === 'active' ? 'Aktif' : 'Nonaktif'}</Badge></td>

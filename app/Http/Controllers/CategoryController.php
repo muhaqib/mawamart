@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AuditLog;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Subcategory;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -12,11 +13,13 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_kategori' => 'required|string|max:255|unique:categories,nama_kategori',
+            'department_id' => 'nullable|integer|exists:departments,id',
+            'nama_kategori' => 'required|string|max:100|unique:categories,nama_kategori',
         ]);
 
         $category = Category::create([
             'nama_kategori' => $request->nama_kategori,
+            'department_id' => $request->department_id,
         ]);
 
         AuditLog::record('category.created', $category);
@@ -29,13 +32,15 @@ class CategoryController extends Controller
         $this->authorize('update', $category);
 
         $request->validate([
-            'nama_kategori' => 'required|string|max:255|unique:categories,nama_kategori,'.$category->id,
+            'department_id' => 'nullable|integer|exists:departments,id',
+            'nama_kategori' => 'required|string|max:100|unique:categories,nama_kategori,'.$category->id,
         ]);
 
         $oldName = $category->nama_kategori;
 
         $category->update([
             'nama_kategori' => $request->nama_kategori,
+            'department_id' => $request->department_id,
         ]);
 
         Product::where('kategori', $oldName)->update([
@@ -51,9 +56,9 @@ class CategoryController extends Controller
     {
         $this->authorize('delete', $category);
 
-        if (Product::where('kategori', $category->nama_kategori)->exists()) {
+        if (Product::where('kategori', $category->nama_kategori)->exists() || Subcategory::where('category_id', $category->id)->exists()) {
             return redirect()->back()->withErrors([
-                'kategori' => 'Kategori masih dipakai produk dan belum bisa dihapus.',
+                'kategori' => 'Kategori masih dipakai barang atau subkategori dan belum bisa dihapus.',
             ]);
         }
 

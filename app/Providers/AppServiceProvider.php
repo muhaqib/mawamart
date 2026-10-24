@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\Department;
 use App\Models\Expense;
 use App\Models\Product;
 use App\Models\StockIn;
 use App\Models\StockOpname;
+use App\Models\Subcategory;
 use App\Models\Supplier;
 use App\Policies\OwnedRecordPolicy;
 use Illuminate\Support\Facades\Gate;
@@ -28,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        foreach ([Product::class, Category::class, Supplier::class, StockIn::class, Expense::class, StockOpname::class] as $model) {
+        foreach ([Department::class, Subcategory::class, Product::class, Category::class, Supplier::class, StockIn::class, Expense::class, StockOpname::class] as $model) {
             Gate::policy($model, OwnedRecordPolicy::class);
         }
 

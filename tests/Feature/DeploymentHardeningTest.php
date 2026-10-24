@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Product;
 use App\Models\StockIn;
@@ -12,6 +13,12 @@ use Tests\TestCase;
 class DeploymentHardeningTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Category::firstOrCreate(['nama_kategori' => 'Minuman']);
+    }
 
     public function test_duplicate_transaction_products_are_rejected_before_stock_changes(): void
     {

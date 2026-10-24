@@ -6,10 +6,12 @@ use App\Http\Requests\DashboardRequest;
 use App\Models\AuditLog;
 use App\Models\CashierShift;
 use App\Models\Category;
+use App\Models\Department;
 use App\Models\Expense;
 use App\Models\Product;
 use App\Models\StockIn;
 use App\Models\StockOpname;
+use App\Models\Subcategory;
 use App\Models\Supplier;
 use App\Models\Transaction;
 use App\Models\User;
@@ -74,7 +76,7 @@ class DashboardController extends Controller
             $products = $productsPaginator->getCollection();
         } elseif (in_array($selectedPage, [
             'transactions', 'transaction-history', 'transaction-edit', 'product-create', 'product-edit',
-            'categories', 'category-create', 'category-edit', 'purchases', 'stock-purchase', 'stock-create', 'stock-edit', 'stock-opname',
+            'departments', 'subcategories', 'categories', 'category-create', 'category-edit', 'purchases', 'stock-purchase', 'stock-create', 'stock-edit', 'stock-opname',
             'settings', 'cashiers',
         ], true)) {
             $products = $productQuery->get();
@@ -316,7 +318,7 @@ class DashboardController extends Controller
         ];
 
         $categories = in_array($selectedPage, [
-            'inventory', 'stock', 'stockin', 'categories', 'category-create', 'category-edit',
+            'inventory', 'stock', 'stockin', 'departments', 'subcategories', 'categories', 'category-create', 'category-edit',
             'product-create', 'product-edit',
         ], true)
             ? Category::orderBy('nama_kategori')->get()
@@ -357,6 +359,8 @@ class DashboardController extends Controller
         }
 
         return view(auth()->user()->isAdmin() ? 'dashboard.admin' : 'dashboard.kasir', [
+            'departments' => Department::orderBy('name')->get(),
+            'subcategories' => Subcategory::orderBy('name')->get(),
             'categories' => $categories,
             'suppliers' => $suppliers,
             'products' => $products,

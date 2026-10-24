@@ -82,6 +82,9 @@ Route::middleware(['auth', 'active'])->group(function (): void {
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])
         ->name('products.destroy');
 
+    Route::resource('departments', \App\Http\Controllers\DepartmentController::class)->only(['store', 'update', 'destroy']);
+    Route::resource('subcategories', \App\Http\Controllers\SubcategoryController::class)->only(['store', 'update', 'destroy']);
+
     Route::post('/categories', [CategoryController::class, 'store'])
         ->name('categories.store');
 

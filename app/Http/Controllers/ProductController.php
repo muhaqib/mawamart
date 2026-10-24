@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -84,7 +85,8 @@ class ProductController extends Controller
                 Rule::unique('products', 'kode_barang')->ignore($product),
             ],
             'nama_barang' => ['required', 'string', 'max:150'],
-            'kategori' => ['required', 'string', 'max:100'],
+            'kategori' => ['required', 'string', 'max:100', 'exists:categories,nama_kategori'],
+            'subcategory_id' => ['nullable', 'integer', Rule::exists('subcategories', 'id')->whereIn('category_id', Category::where('nama_kategori', $request->input('kategori'))->select('id'))],
             'harga_modal' => ['required', 'integer', 'min:0'],
             'harga_jual' => ['required', 'integer', 'min:0'],
             'stok' => ['required', 'integer', 'min:0'],
@@ -93,6 +95,6 @@ class ProductController extends Controller
             'status' => ['required', Rule::in(['active', 'inactive'])],
             'foto_produk' => ['nullable', 'image', 'max:2048'],
             'deskripsi' => ['nullable', 'string', 'max:1000'],
-        ]);
+        ]) + ['subcategory_id' => null];
     }
 }

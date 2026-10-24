@@ -615,3 +615,19 @@ Sebuah fitur dianggap selesai bila:
 6. Memiliki test untuk alur utama dan validasi penting.
 7. Tidak membuka data sensitif ke publik.
 8. Tidak bergantung pada file `.env`, backup SQL, atau kredensial yang masuk Git.
+
+
+## Master Barang: Departemen, Kategori, dan Subkategori
+
+Implementasi 24 Oktober 2026:
+
+- Menu Data Master menyediakan Departemen, Kategori, Subkategori, dan Master Barang.
+- Hierarki: Departemen → Kategori → Subkategori → Barang. Departemen awal: Food dan Non Food.
+- Departemen dan subkategori mendukung tambah, lihat/cari, edit, dan hapus. Nama departemen unik; nama subkategori unik di dalam kategori yang sama.
+- Kategori terhubung ke departemen. Data kategori lama boleh belum memiliki departemen dan dapat dilengkapi melalui form edit.
+- Master Barang mendukung kode/barcode unik, nama, kategori, subkategori opsional, satuan, harga modal, harga jual, stok, stok minimal, status, deskripsi, dan unggah foto.
+- Pilihan kategori mengikuti departemen; pilihan subkategori mengikuti kategori. Server menolak subkategori yang tidak sesuai kategori barang.
+- Daftar barang menampilkan hierarki, filter departemen/kategori, serta pencarian barang dan subkategori.
+- Departemen/kategori/subkategori yang masih digunakan tidak dapat dihapus. Subkategori yang masih dipakai barang tidak dapat dipindah kategori. Barang dengan histori transaksi dinonaktifkan ketika dihapus.
+- Hak edit/hapus mengikuti kepemilikan yang sudah berlaku: admin mengelola seluruh data; kasir aktif mengelola data buatannya sendiri. Perubahan dicatat dalam audit.
+- Migrasi `2026_10_24_000002_add_department_catalog.php` mempertahankan data barang dan kategori lama tanpa menebak departemennya.

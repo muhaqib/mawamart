@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Product;
 use App\Models\User;
@@ -12,6 +13,12 @@ use Tests\TestCase;
 class DirectCrudWorkflowTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Category::firstOrCreate(['nama_kategori' => $this->productPayload()['kategori']]);
+    }
 
     public function test_cashier_edit_of_own_product_is_applied_immediately(): void
     {

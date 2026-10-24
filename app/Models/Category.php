@@ -8,5 +8,5 @@ class Category extends Model
 {
     use Concerns\RecordsCreator;
 
-    protected $fillable = ['nama_kategori'];
+    protected $fillable = ['nama_kategori', 'department_id'];
 }

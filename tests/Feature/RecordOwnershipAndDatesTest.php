@@ -18,6 +18,12 @@ class RecordOwnershipAndDatesTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Category::firstOrCreate(['nama_kategori' => $this->productPayload()['kategori']]);
+    }
+
     public function test_other_cashier_cannot_edit_or_delete_in_any_crud_menu(): void
     {
         $owner = $this->user();
@@ -92,7 +98,7 @@ class RecordOwnershipAndDatesTest extends TestCase
             'tanggal' => '2026-10-01', 'product_id' => Product::sole()->id, 'qty' => 2, 'user_id' => $other->id,
         ])->assertRedirect();
         foreach ([Product::class, Category::class, Supplier::class, StockIn::class] as $model) {
-            $this->assertSame($owner->id, (int) $model::sole()->user_id);
+            $this->assertSame($owner->id, (int) $model::where('user_id', $owner->id)->sole()->user_id);
         }
     }
 
