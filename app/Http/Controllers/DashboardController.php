@@ -76,7 +76,7 @@ class DashboardController extends Controller
             $products = $productsPaginator->getCollection();
         } elseif (in_array($selectedPage, [
             'transactions', 'transaction-history', 'transaction-edit', 'product-create', 'product-edit',
-            'departments', 'subcategories', 'categories', 'category-create', 'category-edit', 'purchases', 'stock-purchase', 'stock-create', 'stock-edit', 'stock-opname',
+            'departments', 'department-create', 'department-edit', 'subcategories', 'subcategory-create', 'subcategory-edit', 'categories', 'category-create', 'category-edit', 'purchases', 'stock-purchase', 'stock-create', 'stock-edit', 'stock-opname',
             'settings', 'cashiers',
         ], true)) {
             $products = $productQuery->get();
@@ -318,13 +318,13 @@ class DashboardController extends Controller
         ];
 
         $categories = in_array($selectedPage, [
-            'inventory', 'stock', 'stockin', 'departments', 'subcategories', 'categories', 'category-create', 'category-edit',
+            'inventory', 'stock', 'stockin', 'departments', 'department-create', 'department-edit', 'subcategories', 'subcategory-create', 'subcategory-edit', 'categories', 'category-create', 'category-edit',
             'product-create', 'product-edit',
         ], true)
             ? Category::orderBy('nama_kategori')->get()
             : collect();
         $suppliers = in_array($selectedPage, [
-            'suppliers', 'supplier-create', 'supplier-edit', 'purchases', 'stock-purchase', 'stock-create', 'stock-edit',
+            'inventory', 'product-create', 'product-edit', 'suppliers', 'supplier-create', 'supplier-edit', 'purchases', 'stock-purchase', 'stock-create', 'stock-edit',
         ], true)
             ? Supplier::orderBy('nama')->get()
             : collect();

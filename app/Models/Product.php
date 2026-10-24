@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
@@ -14,6 +15,8 @@ class Product extends Model
         'nama_barang',
         'kategori',
         'subcategory_id',
+        'supplier_id',
+        'harga_beli',
         'harga_modal',
         'harga_jual',
         'stok',
@@ -27,11 +30,18 @@ class Product extends Model
     protected function casts(): array
     {
         return [
+            'supplier_id' => 'integer',
+            'harga_beli' => 'integer',
             'harga_modal' => 'integer',
             'harga_jual' => 'integer',
             'stok' => 'integer',
             'stok_minimal' => 'integer',
         ];
+    }
+
+    public function supplier(): BelongsTo
+    {
+        return $this->belongsTo(Supplier::class);
     }
 
     public function stockIns(): HasMany

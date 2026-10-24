@@ -87,6 +87,8 @@ class ProductController extends Controller
             'nama_barang' => ['required', 'string', 'max:150'],
             'kategori' => ['required', 'string', 'max:100', 'exists:categories,nama_kategori'],
             'subcategory_id' => ['nullable', 'integer', Rule::exists('subcategories', 'id')->whereIn('category_id', Category::where('nama_kategori', $request->input('kategori'))->select('id'))],
+            'supplier_id' => ['nullable', 'integer', 'exists:suppliers,id'],
+            'harga_beli' => ['sometimes', 'required', 'integer', 'min:0'],
             'harga_modal' => ['required', 'integer', 'min:0'],
             'harga_jual' => ['required', 'integer', 'min:0'],
             'stok' => ['required', 'integer', 'min:0'],

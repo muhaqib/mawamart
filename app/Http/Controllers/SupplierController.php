@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
+use App\Models\Product;
 use App\Models\Supplier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,6 +36,10 @@ class SupplierController extends Controller
     public function destroy(Request $request, Supplier $supplier): RedirectResponse
     {
         $this->authorize('delete', $supplier);
+
+        if (Product::where('supplier_id', $supplier->id)->exists()) {
+            return back()->withErrors(['supplier_id' => 'Suplier masih digunakan barang dan belum bisa dihapus.']);
+        }
 
         $supplier->delete();
 

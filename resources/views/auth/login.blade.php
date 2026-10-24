@@ -115,8 +115,9 @@
         }
 
         .brand-logo {
-            width: 82px;
-            height: 82px;
+            width: 240px;
+            max-width: 100%;
+            height: 100px;
             object-fit: contain;
             flex: 0 0 auto;
         }
@@ -309,8 +310,8 @@
             }
 
             .brand-logo {
-                width: 72px;
-                height: 72px;
+                width: 210px;
+                height: 88px;
             }
 
             .brand-text { font-size: 21px; line-height: 28px; }
@@ -342,8 +343,7 @@
 
             <div class="brand">
                 <a class="brand-mark" href="{{ route('login.form') }}" aria-label="Toko Mawa">
-                    <img class="brand-logo" src="{{ asset('images/logo-mawa-mart.png') }}" alt="Logo Toko Mawa">
-                    <span class="brand-text">Toko Mawa</span>
+                    <img class="brand-logo" src="{{ asset('images/logo-toko-mawa.png') }}" alt="Logo Toko Mawa">
                 </a>
             </div>
 

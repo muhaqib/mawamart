@@ -38,8 +38,7 @@
     <main class="auth">
         <section class="login">
             <div class="logo">
-                <span class="drop">@include('partials.icon', ['name' => 'dashboard'])</span>
-                <div><h1>Toko Mawa</h1><p>Sistem Manajemen</p></div>
+                <img src="{{ asset('images/logo-toko-mawa.png') }}" alt="Logo Toko Mawa" style="width:210px;max-width:100%;height:auto;object-fit:contain">
             </div>
             @if (isset($errors) && $errors->any()) <div class="notice err">{{ $errors->first() }}</div> @endif
             @if (session('success')) <div class="notice ok">{{ session('success') }}</div> @endif
@@ -64,6 +63,8 @@
             'nama_barang' => $product->nama_barang,
             'kategori' => $product->kategori,
             'subcategory_id' => $product->subcategory_id,
+            'supplier_id' => $product->supplier_id,
+            'harga_beli' => (int) $product->harga_beli,
             'harga_modal' => (int) $product->harga_modal,
             'harga_jual' => (int) $product->harga_jual,
             'stok' => (int) $product->stok,

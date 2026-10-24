@@ -47,6 +47,7 @@ class StockInController extends Controller
 
             $productUpdates = collect($data)->only([
                 'harga_modal',
+                'harga_beli',
                 'harga_jual',
                 'kode_barang',
             ])->filter(fn ($value) => $value !== null && $value !== '')->all();
@@ -116,6 +117,7 @@ class StockInController extends Controller
 
             $productUpdates = collect($data)->only([
                 'harga_modal',
+                'harga_beli',
                 'harga_jual',
                 'kode_barang',
             ])->filter(fn ($value) => $value !== null && $value !== '')->all();

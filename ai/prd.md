@@ -631,3 +631,13 @@ Implementasi 24 Oktober 2026:
 - Departemen/kategori/subkategori yang masih digunakan tidak dapat dihapus. Subkategori yang masih dipakai barang tidak dapat dipindah kategori. Barang dengan histori transaksi dinonaktifkan ketika dihapus.
 - Hak edit/hapus mengikuti kepemilikan yang sudah berlaku: admin mengelola seluruh data; kasir aktif mengelola data buatannya sendiri. Perubahan dicatat dalam audit.
 - Migrasi `2026_10_24_000002_add_department_catalog.php` mempertahankan data barang dan kategori lama tanpa menebak departemennya.
+
+
+### Penyesuaian master dan identitas toko
+
+- Departemen dan Subkategori menggunakan pola tampilan Kategori: tabel bernomor, pengurutan kolom, ikon edit/hapus, halaman tambah/edit terpisah, tombol Kembali, Simpan, dan Batal.
+- Urutan form barang: Suplier → Departemen → Kategori → Sub Kategori → Nama → Satuan → Stok → Harga Modal → Harga Beli → Harga Jual → Barcode → Foto Barang → Deskripsi. Stok minimal dan status tersedia di bagian Pengaturan stok dan status.
+- Barang memiliki relasi suplier opsional agar data lama tetap dapat diedit. Suplier yang masih digunakan barang tidak bisa dihapus.
+- Harga beli tersimpan terpisah dari harga modal dan harga jual. Harga beli barang diperbarui dari pencatatan stok masuk.
+- Migrasi `2026_10_24_000003_add_supplier_and_purchase_price_to_products.php` menambahkan `supplier_id` dan `harga_beli` tanpa mengubah nilai harga modal/jual yang ada.
+- Logo login, sidebar, dan halaman login fallback memakai `public/images/logo-toko-mawa.png`, hasil perapian foto `public/images/logotoko.jpeg`.
