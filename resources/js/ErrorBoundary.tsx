@@ -16,7 +16,7 @@ export default class ErrorBoundary extends Component<Props, State> {
     }
 
     public componentDidCatch(error: Error, info: ErrorInfo): void {
-        console.error('Mawa Mart frontend error', error, info.componentStack);
+        console.error('Toko Mawa frontend error', error, info.componentStack);
     }
 
     public render(): ReactNode {

@@ -12,8 +12,8 @@ class LoginUserSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->seedUser('admin', 'admin', 'admin123', 'Admin Mawa Mart');
-        $this->seedUser('cashier', 'kasir', 'kasir123', 'Kasir Mawa Mart');
+        $this->seedUser('admin', 'admin', 'admin123', 'Admin Toko Mawa');
+        $this->seedUser('cashier', 'kasir', 'kasir123', 'Kasir Toko Mawa');
 
         $this->seedSettings();
     }
@@ -49,7 +49,7 @@ class LoginUserSeeder extends Seeder
         try {
             if (Schema::hasTable('app_settings')) {
                 AppSetting::updateReceiptSettings(AppSetting::receiptDefaults());
-                $this->command?->info('✓ Pengaturan toko Mawa Mart berhasil diinisialisasi.');
+                $this->command?->info('✓ Pengaturan toko Toko Mawa berhasil diinisialisasi.');
             }
         } catch (\Throwable $e) {
             // Abaikan jika migrasi belum dijalankan

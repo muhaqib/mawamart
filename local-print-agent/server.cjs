@@ -87,7 +87,7 @@ function buildReceipt(payload) {
     push(Buffer.from([0x1b, 0x40]));
     push(Buffer.from([0x1b, 0x61, 0x01]));
     push(Buffer.from([0x1b, 0x45, 0x01]));
-    push(`${plain(settings.receipt_store_name || 'MAWA MART')}\n`);
+    push(`${plain(settings.receipt_store_name || 'TOKO MAWA')}\n`);
     push(Buffer.from([0x1b, 0x45, 0x00]));
 
     [settings.receipt_address_line_1, settings.receipt_address_line_2].forEach((line) => {
@@ -247,7 +247,7 @@ const server = http.createServer((request, response) => {
 });
 
 server.listen(port, '127.0.0.1', () => {
-    console.log(`Mawa Mart local print agent aktif di http://127.0.0.1:${port}/print`);
+    console.log(`Toko Mawa local print agent aktif di http://127.0.0.1:${port}/print`);
     console.log(`Connector: ${connector}`);
     console.log(`Target printer: ${printer}`);
 });

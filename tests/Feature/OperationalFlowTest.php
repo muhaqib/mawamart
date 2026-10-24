@@ -67,7 +67,7 @@ class OperationalFlowTest extends TestCase
         $this->actingAs($cashier)
             ->get(route('transactions.receipt', ['transaction' => $transaction, 'size' => '58mm']))
             ->assertOk()
-            ->assertSee('MAWA MART')
+            ->assertSee('TOKO MAWA')
             ->assertSee('Cetak dari Perangkat Ini')
             ->assertSee('Kembali')
             ->assertSee('Cetak RawBT Android')

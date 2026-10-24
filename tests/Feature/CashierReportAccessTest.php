@@ -111,7 +111,7 @@ class CashierReportAccessTest extends TestCase
             ->assertSessionHas('success');
 
         $this->assertFileExists($path);
-        $this->assertStringContainsString('MAWA MART', File::get($path));
+        $this->assertStringContainsString('TOKO MAWA', File::get($path));
     }
 
     public function test_cashier_navigation_is_simple_and_profile_is_read_only(): void

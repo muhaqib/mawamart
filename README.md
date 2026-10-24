@@ -1,6 +1,6 @@
-# Mawa Mart
+# Toko Mawa
 
-Aplikasi transaksi, stok, pembelian, pengeluaran, laporan, approval, dan cetak nota Mawa Mart.
+Aplikasi transaksi, stok, pembelian, pengeluaran, laporan, approval, dan cetak nota Toko Mawa.
 
 ## Kebutuhan Server
 

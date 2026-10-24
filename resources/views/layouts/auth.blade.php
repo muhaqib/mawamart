@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Masuk - Mawa Mart')</title>
+    <title>@yield('title', 'Masuk - Toko Mawa')</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
         (() => {
@@ -21,7 +21,7 @@
 <body>
     @yield('content')
     <div style="position: absolute; bottom: 24px; left: 0; right: 0; text-align: center; font-size: 13px; color: var(--muted);">
-        &copy; 2026 Mawa Mart
+        &copy; 2026 Toko Mawa
     </div>
 </body>
 </html>

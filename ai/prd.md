@@ -1,9 +1,9 @@
-# PRD - Mawa Mart Management System
+# PRD - Toko Mawa Management System
 
 ## 1. Informasi Produk
 
-**Nama produk:** Mawa Mart Management System
-**Jenis produk:** Aplikasi POS dan manajemen ritel/stok untuk operasional Mawa Mart.
+**Nama produk:** Toko Mawa Management System
+**Jenis produk:** Aplikasi POS dan manajemen ritel/stok untuk operasional Toko Mawa.
 **Pengguna utama:** Admin dan Kasir.
 **Status dokumen:** PRD operasional sebelum eksekusi lanjutan aplikasi.
 **Status implementasi saat ini:** Aplikasi Laravel dengan UI React/Vite untuk area login setelah autentikasi, serta Blade sebagai bootstrap view dan fallback.

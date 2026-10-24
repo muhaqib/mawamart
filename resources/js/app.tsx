@@ -835,10 +835,10 @@ function App({ props }: { props: AppProps }) {
             >
                 <div className="flex min-h-[76px] items-center gap-3 overflow-hidden border-b border-border px-6">
                     <span className="grid size-14 shrink-0 place-items-center overflow-hidden">
-                        <img className="h-14 w-14 rounded-md object-contain" src="/images/logo-mawa-mart.png" alt="Logo Mawa Mart" />
+                        <img className="h-14 w-14 rounded-md object-contain" src="/images/logo-mawa-mart.png" alt="Logo Toko Mawa" />
                     </span>
                     <span className="grid min-w-0 gap-0.5">
-                        <strong className="truncate text-lg font-semibold leading-6 text-foreground">Mawa Mart</strong>
+                        <strong className="truncate text-lg font-semibold leading-6 text-foreground">Toko Mawa</strong>
                         <small className="truncate text-xs font-medium leading-4 text-muted-foreground">Retail & Mart System</small>
                     </span>
                     <button
@@ -1019,7 +1019,7 @@ function App({ props }: { props: AppProps }) {
                             {resolvedPage === 'account' && <Account props={props} />}
                         </main>
                         <footer className="mt-auto pt-8 text-left text-xs font-medium text-darklink">
-                            &copy; 2026 Mawa Mart
+                            &copy; 2026 Toko Mawa
                         </footer>
                     </div>
                 </div>
@@ -1323,7 +1323,7 @@ function Transactions({ props }: { props: AppProps }) {
             <header className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                 <div>
                     <h1 className="text-2xl font-semibold leading-8">Transaksi</h1>
-                    <p className="text-sm leading-5 text-muted-foreground">Kelola transaksi penjualan dan pembayaran pelanggan Mawa Mart.</p>
+                    <p className="text-sm leading-5 text-muted-foreground">Kelola transaksi penjualan dan pembayaran pelanggan Toko Mawa.</p>
                 </div>
             </header>
 
